@@ -9,6 +9,7 @@
     "config": "^1.30.0",
     "body-parser": "1.18.2",
     "morgan": "^1.9.0",
+    "hruhru": "git+https://git@github.com/yuickhahirasawa/HruHru.git",
     "express": "4.16.3"
   },
   "devDependencies": {
