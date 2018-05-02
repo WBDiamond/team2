@@ -86,13 +86,24 @@ module.exports = {
                         }
                     }
                 ]
+            },
+            {
+                test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].[ext]',
+                        outputPath: 'fonts/'
+                    }
+                }]
             }
         ]
     },
 
     plugins: [
         new HtmlWebpackPlugin({
-            template: 'index.html'
+            template: 'app.html',
+            filename: 'app.html'
         }),
         new webpack.DefinePlugin({
             'process.env.HOST': JSON.stringify(host)
@@ -102,7 +113,7 @@ module.exports = {
     devServer: {
         contentBase: path.join(__dirname, 'dist'),
         compress: true,
-        port: 8080
+        port: 9000
     },
 
     node: {
