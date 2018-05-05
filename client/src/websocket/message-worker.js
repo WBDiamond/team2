@@ -4,7 +4,9 @@ import ss from 'socket.io-stream';
 
 const METHODS =
     ['GetMessages', 'GetProfile', 'SearchByLogin', 'AddContact', 'GetChatList',
-        'SendMessage', 'SendReaction', 'DeleteProfile', 'UploadImage'];
+        'SendMessage', 'SendReaction', 'DeleteProfile', 'UploadImage', 'UploadAvatar', 'CreateChat',
+        'RevokeLink', 'GetContactList'];
+
 
 let TOKEN;
 let socket;
@@ -20,6 +22,12 @@ function init() {
     });
     socket.on('NewChat', chat => {
         postMessage({ action: 'NewChat', result: chat, type: Types.EMIT });
+    });
+    socket.on('NewInviteLink', chat => {
+        postMessage({ action: 'NewInviteLink', result: chat, type: Types.EMIT });
+    });
+    socket.on('NewChatUser', chat => {
+        postMessage({ action: 'NewChatUser', result: chat, type: Types.EMIT });
     });
 
     socket.on('NewReaction', reaction => {
@@ -42,13 +50,30 @@ onmessage = e => {
         return;
     }
 
+    if (action === 'UploadAvatar') {
+        uploadAvatar(e);
+
+        return;
+    }
+
     if (action === 'UploadImage') {
-        const stream = ss.createStream();
-        ss(socket).emit('UploadImage', stream);
-        ss.createBlobReadStream(e.data.value).pipe(stream);
+        uploadImage(e);
 
         return;
     }
 
     socket.emit(action, e.data.value);
 };
+
+function uploadAvatar(e) {
+    const stream = ss.createStream();
+    ss(socket).emit('UploadAvatar', stream);
+    ss.createBlobReadStream(e.data.value).pipe(stream);
+}
+
+
+function uploadImage(e) {
+    const stream = ss.createStream();
+    ss(socket).emit('UploadImage', stream);
+    ss.createBlobReadStream(e.data.value).pipe(stream);
+}
