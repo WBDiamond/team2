@@ -12,6 +12,9 @@ const vendorLibs = [
 const host = process.env.NODE_ENV === 'production'
     ? 'https://kilogram-team2.now.sh' : 'http://localhost:8080';
 
+const staticUrl = process.env.NODE_ENV === 'production'
+    ? 'https://kilogram-team2.surge.sh' : 'http://localhost:8080';
+
 console.info(host);
 
 module.exports = {
@@ -93,16 +96,26 @@ module.exports = {
                     loader: 'file-loader',
                     options: {
                         name: '[name].[ext]',
-                        outputPath: 'fonts/'
-                    }
-                }]
+                        outputPath: 'fonts/',
+                        publicPath: `${staticUrl}/fonts`
+                    }}]
+                }, {
+                    test: /\.mp3$/,
+                    use: [{
+                        loader: 'file-loader',
+                        options: {
+                            name: '[name].[ext]',
+                            outputPath: 'sounds/'
+                        }
+                    }]
             }
         ]
     },
 
     plugins: [
         new webpack.DefinePlugin({
-            'process.env.HOST': JSON.stringify(host)
+            'process.env.HOST': JSON.stringify(host),
+            'process.env.STATIC': JSON.stringify(staticUrl)
         })
     ],
 
