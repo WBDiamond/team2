@@ -57,7 +57,6 @@ export default class ChatListState {
 
     @computed
     get chatsToDisplay() {
-        console.log('this.dataStore.chatList', this.dataStore.chatList);
         return this.dataStore.chatList.filter(chat => {
             return chat.name.toLowerCase()
                 .indexOf(this.searchInput.toLowerCase()) !== -1;
