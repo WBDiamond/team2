@@ -1,7 +1,6 @@
 /* eslint-disable no-invalid-this */
 import { observable, computed, action, autorun } from 'mobx';
 import * as States from '../enum/LoadState';
-import ChatState from './states/ChatState';
 import ChatListState from './states/ChatListState';
 import ReactionSelectorState from './states/ReactionSelectorState';
 import ChatCreateState from './states/ChatCreateState';
